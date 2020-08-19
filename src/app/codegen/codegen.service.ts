@@ -17,34 +17,39 @@ export class CodegenService {
   cntWeight: number = 0;
   myCode: string;
   previousDate: any;
-  flagDanger: boolean = true;
   flagInput: boolean = true;
   subscription: Subscription;
 
   constructor() {
+    //Random weight char just to initialize the grid
     this.weightChar = new StringGen().generateRandomLetter();
     this.matrix = new Array(this.GRID).fill("").map(() => new Array(this.GRID).fill(""));
     const source = interval(2000);
-    this.subscription = source.subscribe(val => this.generateGrid());
+    this.subscription = source.subscribe(val => this.generateGrid(this.weightChar));
   }
 
   refreshGenerator() {
-    //Algorithm of generate Code
-    let n: string = new Date().toLocaleTimeString();
-    const alphaLetter = this.matrix[n.split(":")[2].substr(0, 1)][n.split(":")[2].substr(1, 2)]
-    const betaLetter = this.matrix[n.split(":")[2].substr(1, 2)][n.split(":")[2].substr(0, 1)]
+    //Algorithm of generate MyCode
+    //Get the 2 digit seconds from the clock, like so: 12:40:36. > 36 [3.6] > [6,3]
+    let tnow: string = new Date().toLocaleTimeString();
+    const alphaLetter = this.matrix[tnow.split(":")[2].substr(0, 1)][tnow.split(":")[2].substr(1, 2)]
+    const betaLetter = this.matrix[tnow.split(":")[2].substr(1, 2)][tnow.split(":")[2].substr(0, 1)]
     let alphaOccurrences: number = 0;
     let betaOccurrences: number = 0;
+    //Flattern the array 
     const flatArray: Array<string> = this.matrix.reduce((accumulator, value) => accumulator.concat(value), []);
+    //Search for occurrences of the alpha letter
     alphaOccurrences = flatArray.filter(e => e == alphaLetter).length;
+    //Search for occurrences of the beta letter
     betaOccurrences = flatArray.filter(e => e == betaLetter).length;
+    //If the count is larger than 9, divide the count by the lowest integer possible 
+    //in order to get a value lower or equal to 9. *roundup the result if decimal.
     if (alphaOccurrences > 9) {
       alphaOccurrences = Math.ceil(alphaOccurrences / 3);
     }
     if (betaOccurrences > 9) {
       betaOccurrences = Math.ceil(betaOccurrences / 3);
     }
-    console.log(`Code generated: ${this.myCode}`);
     this.myCode = `${alphaOccurrences}${betaOccurrences}`;
   }
   
@@ -56,14 +61,12 @@ export class CodegenService {
     }
     let dateNow = new Date();
     let seconds = (dateNow.getTime() - this.previousDate.getTime()) / 1000;
-
+    //The user is only allowed to enter a character once every 4 seconds, i.e. user cannot type repeatedly a random character.
     if (seconds > 4) {
       this.previousDate = dateNow;
-      this.flagDanger = true;
       this.flagInput = true;
       return true;
     } else {
-      this.flagDanger = false;
       this.flagInput = false;
       return false;
 
@@ -73,23 +76,28 @@ export class CodegenService {
     let previousIndexList: Array<IPosition> = new Array<IPosition>();
     this.cntWeight = 0
     let totalCells = this.GRID * this.GRID;
-    //generate position for weight
+    //generate a random position for weight char
     for (; this.cntWeight < totalCells * this.WEIGHT; this.cntWeight++) {
       let rndX: number = Math.floor(Math.random() * (this.GRID));
       let rndY: number = Math.floor(Math.random() * (this.GRID));
-      //if number generated overlap previous position
+      //if number generated has overlapped previous position
       let flag: boolean = previousIndexList.some(previousIndex => (previousIndex.x == rndX) && (previousIndex.y == rndY));
       if (flag) {
+        //Generate a new position for the weight char
         rndX = Math.floor(Math.random() * (this.GRID));
         rndY = Math.floor(Math.random() * (this.GRID));
       }
+      //keep track of the last positions
       previousIndexList.push({ x: rndX, y: rndY });
+      //Update position in the grid
       this.matrix[rndX][rndY] = this.weightChar;
     }
 
   }
-  public generateGrid(event?: any) {
+  generateGrid(weightChar:string,event?: any,) {
+    this.weightChar = weightChar;
     this.checkElapsedTime();
+    //Generate a empty matrix
     this.matrix = new Array(this.GRID).fill("").map(() => new Array(this.GRID).fill(""));
     for (const x in this.matrix) {
       for (const y in this.matrix[x]) {

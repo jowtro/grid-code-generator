@@ -3,8 +3,8 @@
 .codeGrid{
     border:1px solid black;
     position: relative;
-    width: 5vh;
-    height: 5vh;
+    width: 40px;
+    height: 40px;
     float: left;
     padding:2.5%;
     text-align:center;
@@ -16,4 +16,9 @@
 
 .flag-danger{
     height: 10vh;
+}
+.gridx{
+    height: auto;
+    width: 420px;
+    max-width: 450px;
 }

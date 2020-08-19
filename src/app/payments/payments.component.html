@@ -1,1 +1,62 @@
-<p>payments works!</p>
+<style>
+  body {
+    font-family: "Roboto";
+    font-size: 14px;
+  }
+  .codeBox {
+    border: 1px solid #ccc;
+  }
+  h3 {
+    font-size: 16px;
+  }
+</style>
+
+  <div class="d-flex p-2 justify-content-center">
+    <div class="codeBox p-2 mb-4 rounded">
+      <h3>YOUR CODE NOW: {{this.codegenService.myCode}}</h3>
+    </div>
+  </div>
+  <div class="p-2 flex-fill">
+    <div class="">
+      <form>
+        <div class="form-row">
+          <div class="col">
+            <input type="text" class="form-control" placeholder="Payment"
+            [(ngModel)]="this.paymentName" [ngModelOptions]="{standalone: true}">
+          </div>
+          <div class="col">
+            <input type="text" class="form-control" placeholder="Amount"
+            [(ngModel)]="this.amount" [ngModelOptions]="{standalone: true}">
+          </div>
+          <div class="col">
+            <button class="btn btn-primary" (click)="this.addToPayments()">
+              + ADD
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="p-2 flex-fill">
+    <div class="">
+      <label for="tblPayment">Payments</label>
+      <table id="tblPayment" class="table table-bordered">
+        <thead>
+          <tr>
+            <th scope="col">NAME</th>
+            <th scope="col">AMOUNT</th>
+            <th scope="col">CODE</th>
+            <th scope="col">GRID</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let _ of this.payments; index as i">
+            <td>{{ _.name }}</td>
+            <td>{{ _.amount }}</td>
+            <td>{{ _.code }}</td>
+            <td>64</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>

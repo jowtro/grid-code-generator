@@ -1,38 +1,49 @@
-<label for="txtChar">Character</label>
-<input
-  id="txtChar"
-  type="text"
-  placeholder="character"
-  maxlength="1"
-  textOnly
-  [(ngModel)]="this.weightChar"
-  [disabled]="this.serviceCodegen.flagInput"
-/>
-
-<button class="btn btn-primary" (click)="this.serviceCodegen.generateGrid($event)">
-  Generate 2D Grid
-</button>
-
-<!--GRID-->
-<div *ngFor="let x of this.serviceCodegen.matrix; index as i">
-  <div class="codeGrid" *ngFor="let y of x; index as i">
-    {{ y }}
-  </div>
-</div>
-<!-- END GRID-->
-
-<div class="d-flex p-1 justify-content-center">
-  <div class="p-2 liveIcon">
-    <svg [@popOverState]="this.stateName" height="10" width="10">
-      <ellipse cx="5" cy="5" rx="5" ry="5" style="fill: rgb(255, 0, 0);" />
-    </svg>
-    LIVE
-  </div>
-</div>
-<div class="d-flex justify-content-center">
-  <div class="p-3">
-    <div class="lblCode">
-      <p>Your Code: {{ this.serviceCodegen.myCode }}</p>
+<div class="row">
+  <div class="d-flex">
+    <div class="p-2">
+      <label for="txtChar">Character</label>
+      <input
+        id="txtChar"
+        type="text"
+        placeholder="character"
+        maxlength="1"
+        textOnly
+        [(ngModel)]="this.weightChar"
+        [disabled]="this.serviceCodegen.flagInput"
+      />
+    </div>
+    <div class="p-2">
+      <button class="btn btn-primary" (click)="this.generateGrid($event)">
+        Add Weight
+      </button>
     </div>
   </div>
 </div>
+
+<div class="row mt-5">
+  <!--GRID-->
+  <div class="gridx mb-5">
+    <div *ngFor="let x of this.serviceCodegen.matrix; index as i">
+      <div class="codeGrid" *ngFor="let y of x; index as i">
+        {{ y }}
+      </div>
+    </div>
+  </div>
+
+  <!-- END GRID-->
+</div>
+  <div class="d-flex justify-content-center">
+    <div class="p-2 liveIcon">
+      <svg [@popOverState]="this.stateName" height="10" width="10">
+        <ellipse cx="5" cy="5" rx="5" ry="5" style="fill: rgb(255, 0, 0);" />
+      </svg>
+      LIVE
+    </div>
+  </div>
+  <div class="d-flex justify-content-center">
+    <div class="p-3">
+      <div class="lblCode">
+        <p>Your Code: {{ this.serviceCodegen.myCode }}</p>
+      </div>
+    </div>
+  </div>

@@ -25,28 +25,23 @@ export class CodegenComponent implements OnInit {
   show = false;
   myCode: string;
   matrix: Array<any>;
-  serviceCodegen:any;
-  weightChar:string;
-  constructor(public codegenService: CodegenService) {
-    this.serviceCodegen = codegenService; 
+  weightChar: string;
+
+  constructor(public serviceCodegen: CodegenService) {
     const sourceAnimation = interval(1000);
     this.subscriptionAnimation = sourceAnimation.subscribe(val => this.animationToggle());
   }
-
 
   get stateName() {
     return this.show ? 'show' : 'hide'
   }
 
-
+  generateGrid(event?: any) {
+    this.serviceCodegen.generateGrid(this.weightChar,event);
+  }
   animationToggle() {
     this.show = !this.show;
   }
- 
-  
-  
-
- 
 
   ngOnInit(): void {
     this.weightChar = this.serviceCodegen.weightChar;
