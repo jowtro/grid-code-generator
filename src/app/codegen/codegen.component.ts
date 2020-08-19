@@ -22,7 +22,7 @@ import { CodegenService } from './codegen.service';
 
 export class CodegenComponent implements OnInit {
   subscriptionAnimation: Subscription;
-  show = false;
+  show:boolean = false;
   myCode: string;
   matrix: Array<any>;
   weightChar: string;

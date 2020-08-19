@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { interval, Subscription } from 'rxjs';
 import { StringGen } from './string-gen';
 import { AppModule } from '../app.module';
-import {CodegenModule} from './codegen.module';
+import { CodegenModule } from './codegen.module';
 @Injectable({
   providedIn: 'root'
 })
@@ -28,21 +28,30 @@ export class CodegenService {
     this.subscription = source.subscribe(val => this.generateGrid(this.weightChar));
   }
 
-  refreshGenerator() {
+  generateCode() {
     //Algorithm of generate MyCode
     //Get the 2 digit seconds from the clock, like so: 12:40:36. > 36 [3.6] > [6,3]
-    let tnow: string = new Date().toLocaleTimeString();
-    const alphaLetter = this.matrix[tnow.split(":")[2].substr(0, 1)][tnow.split(":")[2].substr(1, 2)]
-    const betaLetter = this.matrix[tnow.split(":")[2].substr(1, 2)][tnow.split(":")[2].substr(0, 1)]
+    const d: Date = new Date();
+    const seconds: string =
+      d.getSeconds() < 10
+        ? `0${d.getSeconds().toString()}`
+        : d.getSeconds().toString();
+
+    const alphaLetter = this.matrix[seconds.slice(0, 1)][seconds.slice(1, 2)];
+
+    const betaLetter = this.matrix[seconds.slice(1, 2)][seconds.slice(0, 1)];
     let alphaOccurrences: number = 0;
     let betaOccurrences: number = 0;
-    //Flattern the array 
-    const flatArray: Array<string> = this.matrix.reduce((accumulator, value) => accumulator.concat(value), []);
+    //Flattern the array
+    const flatArray: Array<string> = this.matrix.reduce(
+      (accumulator, value) => accumulator.concat(value),
+      []
+    );
     //Search for occurrences of the alpha letter
-    alphaOccurrences = flatArray.filter(e => e == alphaLetter).length;
+    alphaOccurrences = flatArray.filter((e) => e == alphaLetter).length;
     //Search for occurrences of the beta letter
-    betaOccurrences = flatArray.filter(e => e == betaLetter).length;
-    //If the count is larger than 9, divide the count by the lowest integer possible 
+    betaOccurrences = flatArray.filter((e) => e == betaLetter).length;
+    //If the count is larger than 9, divide the count by the lowest integer possible
     //in order to get a value lower or equal to 9. *roundup the result if decimal.
     if (alphaOccurrences > 9) {
       alphaOccurrences = Math.ceil(alphaOccurrences / 3);
@@ -52,8 +61,7 @@ export class CodegenService {
     }
     this.myCode = `${alphaOccurrences}${betaOccurrences}`;
   }
-  
-  
+
   checkElapsedTime() {
     if (this.previousDate == undefined) {
       this.previousDate = new Date();
@@ -94,7 +102,7 @@ export class CodegenService {
     }
 
   }
-  generateGrid(weightChar:string,event?: any,) {
+  generateGrid(weightChar: string, event?: any,) {
     this.weightChar = weightChar;
     this.checkElapsedTime();
     //Generate a empty matrix
@@ -106,7 +114,7 @@ export class CodegenService {
     }
     this.cntWeight = 0;
     this.generateWeight();
-    this.refreshGenerator();
+    this.generateCode();
   }
 
 }
