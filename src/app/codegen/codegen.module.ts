@@ -1,13 +1,13 @@
 import { FormsModule } from '@angular/forms';
 import { CodegenComponent } from './codegen.component';
-import { ModuleWithProviders, NgModule,Optional,SkipSelf } from '@angular/core';
+import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
 import { CodegenService } from './codegen.service';
 import { CommonModule } from '@angular/common';
 @NgModule({
-    imports:      [ CommonModule,FormsModule],
-    declarations: [  CodegenComponent],
-    exports:      [ CodegenComponent ]
-  })
+  imports: [CommonModule, FormsModule],
+  declarations: [CodegenComponent],
+  exports: [CodegenComponent]
+})
 
 export class CodegenModule {
   constructor(@Optional() @SkipSelf() parentModule?: CodegenModule) {
@@ -19,8 +19,8 @@ export class CodegenModule {
 
   static forRoot(): ModuleWithProviders<CodegenModule> {
     return {
-        ngModule: CodegenModule,
-        providers: [CodegenService]
-      };
+      ngModule: CodegenModule,
+      providers: [CodegenService]
+    };
   }
 }

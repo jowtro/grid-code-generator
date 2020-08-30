@@ -19,7 +19,7 @@ export class PaymentsComponent implements OnInit {
     this.payments = new Array<IPayments>();
   }
 
-  addToPayments() {
+  addToPayments(): void {
     this.paymentService.addToPayments(
       {
         name: this.paymentName,
@@ -30,7 +30,7 @@ export class PaymentsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    //Subscriber to the observable
+    // Subscriber to the observable
     const paymentsObservable = this.paymentService.getPayments();
     paymentsObservable.subscribe((paymentsData: IPayments[]) => {
       this.payments = paymentsData;

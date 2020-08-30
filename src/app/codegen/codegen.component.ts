@@ -22,9 +22,9 @@ import { CodegenService } from './codegen.service';
 
 export class CodegenComponent implements OnInit {
   subscriptionAnimation: Subscription;
-  show:boolean = false;
+  show = false;
   myCode: string;
-  matrix: Array<any>;
+  matrix: Array<unknown>;
   weightChar: string;
 
   constructor(public serviceCodegen: CodegenService) {
@@ -32,14 +32,14 @@ export class CodegenComponent implements OnInit {
     this.subscriptionAnimation = sourceAnimation.subscribe(val => this.animationToggle());
   }
 
-  get stateName() {
-    return this.show ? 'show' : 'hide'
+  get stateName(): string {
+    return this.show ? 'show' : 'hide';
   }
 
-  generateGrid(event?: any) {
-    this.serviceCodegen.generateGrid(this.weightChar,event);
+  generateGrid(event?: unknown): void {
+    this.serviceCodegen.generateGrid(this.weightChar, event);
   }
-  animationToggle() {
+  animationToggle(): void {
     this.show = !this.show;
   }
 
