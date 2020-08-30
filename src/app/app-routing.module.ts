@@ -6,6 +6,7 @@ import { PaymentsComponent } from './payments/payments.component';
 const routes: Routes = [
   { path: 'generator', component: CodegenComponent },
   { path: 'payments', component: PaymentsComponent },
+  { path: '**', redirectTo: 'generator', pathMatch: 'full' },
 ];
 
 @NgModule({
